@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ResolveAI Chat</title>
+</head>
+<body>
+
+<h1>🤖 ResolveAI Chat</h1>
+
+<input type="text" id="userInput" placeholder="Type something..." />
+<button onclick="sendMessage()">Send</button>
+
+<pre id="response">Start chatting...</pre>
+
+<script>
+async function sendMessage() {
+    let text = document.getElementById("userInput").value;
+
+    console.log("Sending:", text);
+
+    let res = await fetch("/ask", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message: text })
+    });
+
+    let data = await res.json();
+
+    console.log("Response:", data);
+
+    document.getElementById("response").innerText =
+        "You: " + text + "\nResolveAI: " + data.reply;
+}
+</script>
+
+</body>
+</html>
